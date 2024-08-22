@@ -1,6 +1,6 @@
 /*
 [rewrite]
-https:\/\/69shuba\.cx\/txt\/55175\/35697240.* url script-response-body https://raw.githubusercontent.com/tic0tic0/for-me/main/自动翻页.js
+https:\/\/69shuba\.cx\/txt\/55175\/35697240.* url script-response-body 自动翻页.js
 
 [mitm]
 69shuba.cx
