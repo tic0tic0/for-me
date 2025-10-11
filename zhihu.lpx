@@ -78,6 +78,7 @@ http-response ^https:\/\/api\.zhihu\.com\/v2\/topstory\/hot-lists\/everyone-seei
 # 会员页面 - 弹窗、悬浮动图
 http-response ^https:\/\/api\.zhihu\.com\/bazaar\/vip_tab\/header\? script-path = https://raw.githubusercontent.com/tic0tic0/for-me/refs/heads/main/zhihuad.js, requires-body = true, tag = 知乎移除会员页面推广, enable={vihu_enable}
 # 回答详情页 - 评论区顶部、下一个回答
+http-response ^https?://api\.zhihu\.com/ script-path = https://raw.githubusercontent.com/tic0tic0/for-me/refs/heads/main/zhihuad.js, requires-body = true, tag = 知乎移除圈子, enable={vihu_enable}
 http-response ^https:\/\/api\.zhihu\.com\/next-(?:bff|data|render) script-path = https://raw.githubusercontent.com/tic0tic0/for-me/refs/heads/main/zhihuad.js, requires-body = true, tag = 知乎移除回答详情页推广, enable={vihu_enable}
 http-response ^https:\/\/api\.zhihu\.com\/questions\/\d+(?:\/answers|\/feeds|\?include=) script-path = https://raw.githubusercontent.com/tic0tic0/for-me/refs/heads/main/zhihuad.js, requires-body = true, tag = 知乎移除回答详情页推广, enable={vihu_enable}
 http-response ^https:\/\/www\.zhihu\.com\/api\/v4\/(?:articles|answers)\/\d+\/recommendations?\? script-path = https://raw.githubusercontent.com/tic0tic0/for-me/refs/heads/main/zhihuad.js, requires-body = true, tag = 知乎移除回答详情页推广, enable={vihu_enable}
@@ -87,4 +88,5 @@ http-response ^https:\/\/m-cloud\.zhihu\.com\/api\/cloud\/config\/all\? script-p
 
 
 [MITM]
+
 hostname = api.zhihu.com, www.zhihu.com, appcloud2.zhihu.com, m-cloud.zhihu.com, zhuanlan.zhihu.com, link.zhihu.com
