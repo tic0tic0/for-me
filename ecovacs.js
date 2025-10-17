@@ -108,7 +108,48 @@ else if (url.includes("/user/getUserInfo") || url.includes("/user/info") || url.
         $done({});
     }
 } 
-// 不匹配任何处理条件
+// 4. 处理会员信息（完整版）- 去除广告并精简数据
+else if (url.includes("/user/getMemberInfo")) {
+    try {
+        let body = JSON.parse($response.body);
+        console.log(`处理会员信息接口: ${url}`);
+        
+        if (body?.code === "0000" && body?.data) {
+            // 移除广告相关字段
+            const removeFields = ["slogan", "sloganUrl"];
+            removeFields.forEach(field => {
+                if (body.data[field]) {
+                    console.log(`✅ 移除广告字段: ${field}`);
+                    delete body.data[field];
+                }
+            });
+            
+            // 精简数据 - 只保留核心信息
+            const essentialFields = [
+                "nickName", "userName", "userlevelName", "userlevel",
+                "integral", "exp", "expUpNeed", "isMember", "memberNo"
+            ];
+            
+            const originalData = {...body.data};
+            body.data = {};
+            
+            essentialFields.forEach(field => {
+                if (originalData[field] !== undefined) {
+                    body.data[field] = originalData[field];
+                }
+            });
+            
+            console.log(`✅ 会员信息已精简并移除广告`);
+            $done({ body: JSON.stringify(body) });
+        } else {
+            $done({});
+        }
+    } catch (e) {
+        console.log(`❌ 会员信息处理失败: ${e.message}`);
+        $done({});
+    }
+}
+
 else {
     $done({});
 }
