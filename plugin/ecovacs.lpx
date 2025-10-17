@@ -1,0 +1,17 @@
+#!name = Ecovacs
+#!desc = Ecovacs去广告
+#!author = tic0tic0
+#!tag = 去广告
+#!date = 2025-10-17 00:00
+
+
+
+[MitM]
+hostname = gl-cn-api.ecovacs.cn
+
+[Script]
+http-response ^https:\/\/gl-cn-api\.ecovacs\.cn\/.*getBottomNavigateInfoList script-path=https://github.com/tic0tic0/for-me/raw/refs/heads/main/plugin/js/ecovacs.js, requires-body=1
+
+http-response ^https:\/\/gl-cn-api\.ecovacs\.cn\/.*\/user\/getUserMenuInfo script-path=https://github.com/tic0tic0/for-me/raw/refs/heads/main/plugin/js/ecovacs.js, requires-body=1
+
+http-response ^https?:\/\/.*\.ecovacs\.cn\/.*\/user\/.*profile.* script-path=https://github.com/tic0tic0/for-me/raw/refs/heads/main/plugin/js/ecovacs.js,requires-body=1
