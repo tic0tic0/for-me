@@ -66,8 +66,9 @@ else if (url.includes("/user/getUserMenuInfo")) {
         $done({});
     }
 }
-// 3. 处理用户信息（扩展匹配）
-else if (url.includes("/user/getUserInfo") || url.includes("/user/info") || url.includes("/member/getMyMemberInfo")) {
+
+// 3. 处理用户信息（使用正则表达式匹配所有端点）
+else if (/\/(user|member)\/(getUserInfo|info|getMyMemberInfo)/.test(url)) {
     try {
         let body = JSON.parse($response.body);
         console.log(`处理用户信息接口: ${url}`);
