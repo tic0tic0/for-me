@@ -77,12 +77,21 @@ else if (/\/(user|member)\/(getUserInfo|info|getMyMemberInfo)/.test(url)) {
         const isSuccess = body?.code === "0000" || body?.success === true;
         
         if (isSuccess && body.data) {
+            // 确保数据类型正确（前端可能期望特定类型）
+            const integralValue = parseInt(body.data.integral) || 0;
+            const expValue = parseInt(body.data.exp) || 0;
+            const ticketCount = parseInt(body.data.availableTicketCount) || 0;
+            const taskCount = parseInt(body.data.availableTaskCount) || 0;
+            
+            console.log(`原始数据 - 积分:${body.data.integral} (类型:${typeof body.data.integral})`);
+            console.log(`原始数据 - 经验:${body.data.exp} (类型:${typeof body.data.exp})`);
+            
             // 创建精简后的数据结构 - 只保留指定的四个字段
             const simplifiedData = {
-                integral: body.data.integral || "0", // 保留积分
-                exp: body.data.exp || "0", // 保留经验值
-                availableTicketCount: body.data.availableTicketCount || 0, // 保留券包数量
-                availableTaskCount: body.data.availableTaskCount || 0 // 保留任务数量
+                integral: integralValue, // 确保是数字类型
+                exp: expValue, // 确保是数字类型
+                availableTicketCount: ticketCount, // 确保是数字类型
+                availableTaskCount: taskCount // 确保是数字类型
             };
             
             // 保留必要的顶层字段
@@ -94,12 +103,24 @@ else if (/\/(user|member)\/(getUserInfo|info|getMyMemberInfo)/.test(url)) {
                 time: body.time || Date.now()
             };
             
-            console.log(`✅ 用户信息已精简 - 积分:${result.data.integral} 经验:${result.data.exp}`);
+            console.log(`✅ 用户信息已精简 - 积分:${result.data.integral} (类型:${typeof result.data.integral})`);
+            console.log(`经验:${result.data.exp} (类型:${typeof result.data.exp})`);
             console.log(`券包:${result.data.availableTicketCount} 任务:${result.data.availableTaskCount}`);
             
-            $done({ body: JSON.stringify(result) });
+            // 添加调试信息到响应头
+            const modifiedHeaders = {
+                ...$response.headers,
+                'X-Modified-By': 'Loon-Script',
+                'X-Debug-Info': `积分:${integralValue},经验:${expValue}`
+            };
+            
+            $done({
+                body: JSON.stringify(result),
+                headers: modifiedHeaders
+            });
         } else {
             console.log(`❌ 用户信息结构不匹配或非成功状态`);
+            console.log(`响应体: ${JSON.stringify(body).substring(0, 200)}`);
             $done({ body: $response.body });
         }
     } catch (e) {
@@ -107,7 +128,6 @@ else if (/\/(user|member)\/(getUserInfo|info|getMyMemberInfo)/.test(url)) {
         $done({ body: $response.body });
     }
 }
-
 // 不匹配任何处理条件
 // 其他请求不做处理
 else {
