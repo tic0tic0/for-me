@@ -1,3 +1,11 @@
+#!name = 龙湖去广告
+#!desc = 龙湖App去除广告，移除底栏，精简我的页面。
+#!author = tic0tic0
+#!date = 2025-10-17
+#!icon=https://github.com/tic0tic0/for-me/raw/refs/heads/main/icon/longhu.png
+
+[Argument]
+
 [Script]
 # 底栏过滤
 http-response ^https?:\/\/gw2c-hw-open\.longfor\.com\/.*\/nav\/query\/app script-path=https://github.com/tic0tic0/for-me/raw/refs/heads/main/plugin/js/longhu.js,timeout=10,requires-body=true,tag=底栏过滤,enable=true
