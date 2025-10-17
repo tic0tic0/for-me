@@ -66,31 +66,45 @@ else if (url.includes("/user/getUserMenuInfo")) {
         $done({});
     }
 } 
-// 3. 处理用户信息（精简）
-else if (url.includes("/user/getUserInfo") || url.includes("/user/info")) {
+// 3. 处理用户信息（扩展匹配）
+else if (url.includes("/user/getUserInfo") || url.includes("/user/info") || url.includes("/member/getMyMemberInfo")) {
     try {
         let body = JSON.parse($response.body);
+        console.log(`处理用户信息接口: ${url}`);
         
-        if (body?.code === "0000" && body?.data) {
-            // 只保留用户名和等级
+        // 多种成功状态判断
+        const isSuccess = body?.code === "0000" || body?.success === true;
+        
+        if (isSuccess && body.data) {
+            // 创建精简后的数据结构
             const simplifiedData = {
-                nickName: body.data.nickName || "",
+                nickName: body.data.nickName || body.data.username || "",
                 memberInfo: {
-                    userlevelName: body.data.memberInfo?.userlevelName || ""
+                    userlevelName: body.data.memberInfo?.userlevelName || 
+                                  body.data.levelName || 
+                                  body.data.userLevel || ""
                 }
             };
             
-            // 替换原始数据
-            body.data = simplifiedData;
+            // 保留必要的顶层字段
+            const result = {
+                code: body.code || "0000",
+                success: body.success !== undefined ? body.success : true,
+                msg: body.msg || "操作成功",
+                data: simplifiedData,
+                time: body.time || Date.now()
+            };
             
-            console.log(`用户信息已精简: ${body.data.nickName} - ${body.data.memberInfo.userlevelName}`);
+            console.log(`✅ 用户信息已精简: ${result.data.nickName} - ${result.data.memberInfo.userlevelName}`);
             
-            $done({ body: JSON.stringify(body) });
+            $done({ body: JSON.stringify(result) });
         } else {
+            console.log(`❌ 用户信息结构不匹配`);
+            console.log(`响应体: ${JSON.stringify(body).substring(0, 200)}...`);
             $done({});
         }
     } catch (e) {
-        console.log(`用户信息处理失败: ${e.message}`);
+        console.log(`❌ 用户信息处理失败: ${e.message}`);
         $done({});
     }
 } 
