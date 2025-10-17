@@ -66,8 +66,7 @@ else if (url.includes("/user/getUserMenuInfo")) {
         $done({});
     }
 }
-
-// 3. 处理用户信息（使用正则表达式匹配所有端点）
+// 3. 处理用户信息（扩展匹配）
 else if (/\/(user|member)\/(getUserInfo|info|getMyMemberInfo)/.test(url)) {
     try {
         let body = JSON.parse($response.body);
@@ -77,14 +76,21 @@ else if (/\/(user|member)\/(getUserInfo|info|getMyMemberInfo)/.test(url)) {
         const isSuccess = body?.code === "0000" || body?.success === true;
         
         if (isSuccess && body.data) {
-            // 创建精简后的数据结构
+            // 创建精简后的数据结构 - 保留核心信息
             const simplifiedData = {
                 nickName: body.data.nickName || body.data.username || "",
+                headImg: body.data.headImg || "", // 保留头像
+                integral: body.data.integral || "0", // 保留积分
+                exp: body.data.exp || "0", // 保留经验值
+                availableTicketCount: body.data.availableTicketCount || 0, // 保留券包数量
+                availableTaskCount: body.data.availableTaskCount || 0, // 保留任务数量
                 memberInfo: {
                     userlevelName: body.data.memberInfo?.userlevelName || 
                                   body.data.levelName || 
                                   body.data.userLevel || ""
-                }
+                },
+                // 保留权益列表（积分抵扣、包邮特权等）
+                benefitList: body.data.benefitList || []
             };
             
             // 保留必要的顶层字段
@@ -96,19 +102,20 @@ else if (/\/(user|member)\/(getUserInfo|info|getMyMemberInfo)/.test(url)) {
                 time: body.time || Date.now()
             };
             
-            console.log(`✅ 用户信息已精简: ${result.data.nickName} - ${result.data.memberInfo.userlevelName}`);
+            console.log(`✅ 用户信息已精简 - 积分:${result.data.integral} 经验:${result.data.exp}`);
+            console.log(`券包:${result.data.availableTicketCount} 任务:${result.data.availableTaskCount}`);
             
             $done({ body: JSON.stringify(result) });
         } else {
             console.log(`❌ 用户信息结构不匹配`);
-            console.log(`响应体: ${JSON.stringify(body).substring(0, 200)}...`);
             $done({});
         }
     } catch (e) {
         console.log(`❌ 用户信息处理失败: ${e.message}`);
         $done({});
     }
-} 
+}
+
 // 不匹配任何处理条件
 // 其他请求不做处理
 else {
