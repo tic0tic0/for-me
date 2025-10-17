@@ -66,6 +66,7 @@ else if (url.includes("/user/getUserMenuInfo")) {
         $done({});
     }
 }
+
 // 3. 处理用户信息（扩展匹配）
 else if (/\/(user|member)\/(getUserInfo|info|getMyMemberInfo)/.test(url)) {
     try {
@@ -76,21 +77,12 @@ else if (/\/(user|member)\/(getUserInfo|info|getMyMemberInfo)/.test(url)) {
         const isSuccess = body?.code === "0000" || body?.success === true;
         
         if (isSuccess && body.data) {
-            // 创建精简后的数据结构 - 保留核心信息
+            // 创建精简后的数据结构 - 只保留指定的四个字段
             const simplifiedData = {
-                nickName: body.data.nickName || body.data.username || "",
-                headImg: body.data.headImg || "", // 保留头像
                 integral: body.data.integral || "0", // 保留积分
                 exp: body.data.exp || "0", // 保留经验值
                 availableTicketCount: body.data.availableTicketCount || 0, // 保留券包数量
-                availableTaskCount: body.data.availableTaskCount || 0, // 保留任务数量
-                memberInfo: {
-                    userlevelName: body.data.memberInfo?.userlevelName || 
-                                  body.data.levelName || 
-                                  body.data.userLevel || ""
-                },
-                // 保留权益列表（积分抵扣、包邮特权等）
-                benefitList: body.data.benefitList || []
+                availableTaskCount: body.data.availableTaskCount || 0 // 保留任务数量
             };
             
             // 保留必要的顶层字段
@@ -107,12 +99,12 @@ else if (/\/(user|member)\/(getUserInfo|info|getMyMemberInfo)/.test(url)) {
             
             $done({ body: JSON.stringify(result) });
         } else {
-            console.log(`❌ 用户信息结构不匹配`);
-            $done({});
+            console.log(`❌ 用户信息结构不匹配或非成功状态`);
+            $done({ body: $response.body });
         }
     } catch (e) {
         console.log(`❌ 用户信息处理失败: ${e.message}`);
-        $done({});
+        $done({ body: $response.body });
     }
 }
 
