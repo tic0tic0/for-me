@@ -14,7 +14,4 @@ http-response ^https:\/\/gl-cn-api\.ecovacs\.cn\/.*getBottomNavigateInfoList scr
 
 http-response ^https:\/\/gl-cn-api\.ecovacs\.cn\/.*\/user\/getUserMenuInfo script-path=https://github.com/tic0tic0/for-me/raw/refs/heads/main/plugin/js/ecovacs.js, requires-body=1
 
-http-response ^https:\/\/gl-cn-api\.ecovacs\.cn\/.*\/user\/getUserInfo script-path=https://github.com/tic0tic0/for-me/raw/refs/heads/main/plugin/js/ecovacs.js, requires-body=1
-http-response ^https:\/\/gl-cn-api\.ecovacs\.cn\/.*\/user\/info script-path=https://github.com/tic0tic0/for-me/raw/refs/heads/main/plugin/js/ecovacs.js, requires-body=1
-http-response ^https:\/\/gl-cn-api\.ecovacs\.cn\/.*\/member\/getMyMemberInfo script-path=https://github.com/tic0tic0/for-me/raw/refs/heads/main/plugin/js/ecovacs.js, requires-body=1
-http-response ^https:\/\/gl-cn-api\.ecovacs\.cn\/.*\/user\/getMemberInfo script-path=https://github.com/tic0tic0/for-me/raw/refs/heads/main/plugin/js/ecovacs.js, requires-body=1
+http-response ^https:\/\/gl-cn-api\.ecovacs\.cn\/.*\/(user|member)\/(getUserInfo|info|getMyMemberInfo) script-path=https://github.com/tic0tic0/for-me/raw/refs/heads/main/plugin/js/ecovacs.js, requires-body=1
