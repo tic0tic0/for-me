@@ -1,12 +1,12 @@
 [Script]
 # 底栏过滤
-longhu_nav_filter = type=http-response,pattern=^https?:\/\/gw2c-hw-open\.longfor\.com\/.*\/nav\/query\/app ,script-path=https://github.com/tic0tic0/for-me/raw/refs/heads/main/plugin/js/longhu.js,requires-body=true
+http-response ^https?:\/\/gw2c-hw-open\.longfor\.com\/.*\/nav\/query\/app script-path=https://github.com/tic0tic0/for-me/raw/refs/heads/main/plugin/js/longhu.js,timeout=10,requires-body=true,tag=底栏过滤,enable=true
 
 # 首页净化
-http-response ^https?://gw2c-hw-open\.longfor\.com/supera/C2/v\d+_\d+_\d+/publicApi/getPageData/C2home script-path=https://github.com/tic0tic0/for-me/raw/refs/heads/main/plugin/js/longhu.js,timeout=10,requires-body=true,tag=purify-home,enable=true
+http-response ^https?://gw2c-hw-open\.longfor\.com/supera/C2/v\d+_\d+_\d+/publicApi/getPageData/C2home script-path=https://github.com/tic0tic0/for-me/raw/refs/heads/main/plugin/js/longhu.js,timeout=10,requires-body=true,tag=首页净化,enable=true
 
 # 会员页面净化
-http-response ^https?://gw2c-hw-open\.longfor\.com/supera/member/api/bff/pages/v\d+_\d+_\d+/publicApi/v1/pageConfig script-path=https://github.com/tic0tic0/for-me/raw/refs/heads/main/plugin/js/longhu.js,timeout=10,requires-body=true,tag=purify-member,enable=true
+http-response ^https?://gw2c-hw-open\.longfor\.com/supera/member/api/bff/pages/v\d+_\d+_\d+/publicApi/v1/pageConfig script-path=https://github.com/tic0tic0/for-me/raw/refs/heads/main/plugin/js/longhu.js,timeout=10,requires-body=true,tag=会员页面净化,enable=true
 
 [MITM]
 hostname = gw2c-hw-open.longfor.com
