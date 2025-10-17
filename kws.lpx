@@ -1,0 +1,6 @@
+[Script]
+http-response ^https:\/\/gl-cn-api\.ecovacs\.cn\/.*getBottomNavigateInfoList requires-body=1 script-path=https://github.com/tic0tic0/for-me/raw/refs/heads/main/kws.js
+http-response ^https:\/\/gl-cn-api\.ecovacs\.cn\/.*\/user\/getUserMenuInfo requires-body=1 script-path=https://github.com/tic0tic0/for-me/raw/refs/heads/main/kws.js
+
+[Mitm]
+hostname = gl-cn-api.ecovacs.cn
