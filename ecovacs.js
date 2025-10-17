@@ -1,31 +1,100 @@
-// 简化版脚本 - 去除科沃斯APP底部导航栏
-const urlRegex = /^https:\/\/gl-cn-api\.ecovacs\.cn\/.*getBottomNavigateInfoList/;
-const blockItems = ["商城", "发现"];
+// 科沃斯APP多功能过滤脚本
+const url = $request.url;
 
-if (urlRegex.test($request.url)) {
+// 1. 处理底部导航栏
+if (/^https:\/\/gl-cn-api\.ecovacs\.cn\/.*getBottomNavigateInfoList/.test(url)) {
     try {
         let body = JSON.parse($response.body);
+        const blockNavItems = ["商城", "发现"];
         
         if (body?.data?.navigateInfoResponseList) {
-            // 记录原始数量
             const originalCount = body.data.navigateInfoResponseList.length;
             
-            // 过滤导航项
             body.data.navigateInfoResponseList = body.data.navigateInfoResponseList.filter(
-                item => !blockItems.includes(item.iconName)
+                item => !blockNavItems.includes(item.iconName)
             );
             
             console.log(`导航项数量: ${originalCount} → ${body.data.navigateInfoResponseList.length}`);
-            console.log(`已移除: ${blockItems.join(', ')}`);
+            console.log(`已移除导航项: ${blockNavItems.join(', ')}`);
             
             $done({ body: JSON.stringify(body) });
         } else {
             $done({});
         }
     } catch (e) {
-        console.log(`处理失败: ${e.message}`);
+        console.log(`导航栏处理失败: ${e.message}`);
         $done({});
     }
-} else {
+} 
+// 2. 处理"我的"页面菜单
+else if (url.includes("/user/getUserMenuInfo")) {
+    try {
+        let body = JSON.parse($response.body);
+        const blockMenuItems = ["我的E享卡", "我的收藏", "我的评论"];
+        
+        if (body?.data?.menuList) {
+            let totalRemoved = 0;
+            let totalOriginal = 0;
+            
+            body.data.menuList.forEach(menuGroup => {
+                if (menuGroup.menuItems) {
+                    const originalCount = menuGroup.menuItems.length;
+                    totalOriginal += originalCount;
+                    
+                    menuGroup.menuItems = menuGroup.menuItems.filter(
+                        item => !blockMenuItems.includes(item.menuName)
+                    );
+                    
+                    const removedCount = originalCount - menuGroup.menuItems.length;
+                    totalRemoved += removedCount;
+                    
+                    if (removedCount > 0) {
+                        console.log(`菜单组 ${menuGroup.menuPositionKey}: 移除了 ${removedCount} 项`);
+                    }
+                }
+            });
+            
+            console.log(`总计: ${totalOriginal} → ${totalOriginal - totalRemoved} (移除了 ${totalRemoved} 项)`);
+            console.log(`已移除菜单项: ${blockMenuItems.join(', ')}`);
+            
+            $done({ body: JSON.stringify(body) });
+        } else {
+            $done({});
+        }
+    } catch (e) {
+        console.log(`菜单处理失败: ${e.message}`);
+        $done({});
+    }
+} 
+// 3. 处理用户信息（精简）
+else if (url.includes("/user/getUserInfo") || url.includes("/user/info")) {
+    try {
+        let body = JSON.parse($response.body);
+        
+        if (body?.code === "0000" && body?.data) {
+            // 只保留用户名和等级
+            const simplifiedData = {
+                nickName: body.data.nickName || "",
+                memberInfo: {
+                    userlevelName: body.data.memberInfo?.userlevelName || ""
+                }
+            };
+            
+            // 替换原始数据
+            body.data = simplifiedData;
+            
+            console.log(`用户信息已精简: ${body.data.nickName} - ${body.data.memberInfo.userlevelName}`);
+            
+            $done({ body: JSON.stringify(body) });
+        } else {
+            $done({});
+        }
+    } catch (e) {
+        console.log(`用户信息处理失败: ${e.message}`);
+        $done({});
+    }
+} 
+// 不匹配任何处理条件
+else {
     $done({});
 }
