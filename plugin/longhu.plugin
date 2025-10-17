@@ -1,0 +1,7 @@
+[Script]
+longhu_nav_filter = type=http-response,pattern=^https?:\/\/gw2c-hw-open\.longfor\.com\/.*\/nav\/query\/app ,script-path=longhu.js,requires-body=true
+
+http-response ^https?://gw2c-hw-open\.longfor\.com/supera/C2/v\d+_\d+_\d+/publicApi/getPageData/C2home script-path=index.js,timeout=10,requires-body=true,tag=purify-home,enable=true
+
+[MITM]
+hostname = gw2c-hw-open.longfor.com
