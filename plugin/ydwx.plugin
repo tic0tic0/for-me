@@ -1,5 +1,5 @@
 #!name = 一点万象去广告
-#!desc = 一点万象去除广告，移除底栏。
+#!desc = 一点万象app去除广告
 #!author = tic0tic0
 #!date = 2025-10-18
 #!icon=https://github.com/tic0tic0/for-me/raw/refs/heads/main/icon/ydwx.png
@@ -8,5 +8,5 @@
 
 http-response ^https?:\/\/app\.mixcapp\.com\/mixc\/gateway script-path=https://github.com/tic0tic0/for-me/raw/refs/heads/main/plugin/js/ydwx.js,timeout=10,requires-body=true,tag=净化首页,enable=true
 
-[Mitm]
-hostname=app.mixcapp.com
+[MITM]
+hostname = app.mixcapp.com
