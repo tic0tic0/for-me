@@ -6,7 +6,7 @@
 
 [Script]
 
-http-response ^https?:\/\/app\.mixcapp\.com\/mixc\/gateway script-path=https://github.com/tic0tic0/for-me/raw/refs/heads/main/js/ydwx.js,timeout=10,requires-body=true,tag=净化首页,enable=true
+http-response ^https?:\/\/app\.mixcapp\.com\/mixc\/gateway script-path=https://github.com/tic0tic0/for-me/raw/refs/heads/main/plugin/js/ydwx.js,timeout=10,requires-body=true,tag=净化首页,enable=true
 
 [Mitm]
 host=app.mixcapp.com
