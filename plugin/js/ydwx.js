@@ -1,19 +1,32 @@
-// 清除所有响应内容，返回空数据结构
-const cleanResponse = () => {
-  const emptyData = {
-    code: 0,
-    message: null,
-    data: {
-      pages: 0,
-      list: [],
-      total: 0,
-      pageNum: 1
-    },
-    timestamp: Date.now()
-  };
-  
-  $done({ body: JSON.stringify(emptyData) });
-};
-
-// 执行清理操作
-cleanResponse();
+(function() {
+    let body = $response.body;
+    try {
+        let json = JSON.parse(body);
+        if (json && json.data && Array.isArray(json.data.components)) {
+            // 过滤components数组，移除指定板块
+            json.data.components = json.data.components.filter(component => {
+                // 移除bizType为"marketingTool"的板块
+                if (component.bizType === "marketingTool") {
+                    return false;
+                }
+                // 移除bizType为"good"且title为"商场优惠"的板块
+                if (component.bizType === "good" && component.good && component.good.title === "商场优惠") {
+                    return false;
+                }
+                // 移除bizType为"channel"且包含title为"逛商场"的channel的板块
+                if (component.bizType === "channel" && Array.isArray(component.channels)) {
+                    let hasMallChannel = component.channels.some(channel => channel.title === "逛商场");
+                    if (hasMallChannel) {
+                        return false;
+                    }
+                }
+                // 保留其他板块
+                return true;
+            });
+            body = JSON.stringify(json);
+        }
+    } catch (e) {
+        console.log("脚本执行错误: " + e);
+    }
+    $done({body});
+})();
