@@ -5,12 +5,14 @@ let body = $response.body;
 try {
     let json = JSON.parse(body);
     
-    // 1. 处理底栏过滤（服务/优选）
-    if (url.includes("getTabList")) {
-        if (json.data?.data?.length) {
-            json.data.data = json.data.data.filter(item => 
-                item.frameName !== "服务" && item.frameName !== "优选"
-            );
+    // 1. 处理底栏过滤（服务/优选）- 使用第一个脚本的逻辑
+    if (typeof $response !== "undefined" && url.includes("getTabList")) {
+        if (json && json.data && json.data.data && Array.isArray(json.data.data)) {
+            // 过滤掉"服务"和"优选"选项
+            json.data.data = json.data.data.filter(item => {
+                return item.frameName !== "服务" && item.frameName !== "优选";
+            });
+            body = JSON.stringify(json);
         }
     }
     
