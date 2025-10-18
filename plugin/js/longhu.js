@@ -5,19 +5,8 @@ let body = $response.body;
 try {
     let json = JSON.parse(body);
     
-    // 1. 处理底栏过滤（服务/优选）- 使用已确认正常工作的版本
-    if (url.includes("/nav/query/app")) {
-        if (json && json.data && json.data.data && Array.isArray(json.data.data)) {
-            // 过滤掉"服务"和"优选"选项
-            json.data.data = json.data.data.filter(item => {
-                return item.frameName !== "服务" && item.frameName !== "优选";
-            });
-            body = JSON.stringify(json);
-        }
-    }
-    
-    // 2. 处理首页内容
-    else if (url.includes("getPageData/C2home")) {
+    // 处理首页内容
+    if (url.includes("getPageData/C2home")) {
         if (json.data && json.data.components) {
             // 找到MiniCard组件（第二个组件）
             if (json.data.components.length > 1 && json.data.components[1].componentType === "MiniCard") {
@@ -48,7 +37,7 @@ try {
         }
     }
     
-    // 3. 处理会员页面
+    // 处理会员页面
     else if (url.includes("/supera/member/api/bff/pages/") && url.includes("/publicApi/v1/pageConfig")) {
         if (json.data && json.data.components) {
             // 处理第一个组件：移除"优选权益"（taskId为33828）
