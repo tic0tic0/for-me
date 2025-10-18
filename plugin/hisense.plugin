@@ -1,0 +1,16 @@
+#!name = 海信爱家去广告
+#!desc = 海信爱家小程序去除广告
+#!author = tic0tic0
+#!date = 2025-10-18
+#!icon=https://github.com/tic0tic0/for-me/raw/refs/heads/main/icon/hxaj.png
+
+[Rule]
+
+DOMAIN,mobile-home-launcher.hismarttv.com,REJECT
+
+[Script]
+http-response ^https:\/\/public-wxtv\.hismarttv\.com\/vodapptv\/5\.10\/sceneParams\/data\/get script-path=https://github.com/tic0tic0/for-me/raw/refs/heads/main/plugin/js/hxaj.js, requires-body=true, timeout=10, tag=去除遥控器页面
+
+
+[MITM]
+hostname = public-wxtv.hismarttv.com
