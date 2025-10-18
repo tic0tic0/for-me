@@ -8,7 +8,7 @@
 
 [Script]
 # 底栏过滤
-http-response ^https?:\/\/gw2c-hw-open\.longfor\.com\/.*\/nav\/query\/app script-path=https://github.com/tic0tic0/for-me/raw/refs/heads/main/plugin/js/longhu.js,timeout=10,requires-body=true,tag=底栏过滤,enable=true
+http-response ^https?:\/\/gw2c-hw-open\.longfor\.com\/.*\/nav\/query\/app script-path=https://github.com/tic0tic0/for-me/raw/refs/heads/main/plugin/js/longhunav.js,timeout=10,requires-body=true,tag=底栏过滤,enable=true
 
 # 首页净化
 http-response ^https?://gw2c-hw-open\.longfor\.com/supera/C2/v\d+_\d+_\d+/publicApi/getPageData/C2home script-path=https://github.com/tic0tic0/for-me/raw/refs/heads/main/plugin/js/longhu.js,timeout=10,requires-body=true,tag=首页净化,enable=true
