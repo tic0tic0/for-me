@@ -9,8 +9,11 @@
 DOMAIN,mobile-home-launcher.hismarttv.com,REJECT
 
 [Script]
-http-response ^https:\/\/public-wxtv\.hismarttv\.com\/vodapptv\/5\.10\/sceneParams\/data\/get script-path=https://github.com/tic0tic0/for-me/raw/refs/heads/main/plugin/js/hxaj.js, requires-body=true, timeout=10, tag=净化遥控器页面
+#http-response ^https:\/\/public-wxtv\.hismarttv\.com\/vodapptv\/5\.10\/sceneParams\/data\/get script-path=https://github.com/tic0tic0/for-me/raw/refs/heads/main/plugin/js/hxaj.js, requires-body=true, timeout=10, tag=净化遥控器页面
 
+［Rewrite］
+# 净化遥控器页面
+^https:\/\/public-wxtv\.hismarttv\.com\/vodapptv\/5\.10\/sceneParams\/data\/get response-body-json-jq '.pageParams |= map(del(.rcPromotion))'
 
 [MITM]
 hostname = public-wxtv.hismarttv.com
