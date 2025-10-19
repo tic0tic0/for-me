@@ -9,6 +9,7 @@
 
 [Rewrite]
 # 净化首页
-^https?:\/\/app\.mixcapp\.com\/mixc\/gateway response-body-json-jq '.data.components |= map(select(.bizType != "marketingTool" and (.bizType != "good" or .good.title != "商场优惠") and (.bizType != "channel" or (all(.channels[].title? != "逛商场")))))'
+^https?:\/\/app\.mixcapp\.com\/mixc\/gateway response-body-json-jq '.data.components |= map(select(.bizType != "good" and .bizType != "channel"))'
+
 [MITM]
 hostname = app.mixcapp.com
