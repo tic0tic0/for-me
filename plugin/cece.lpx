@@ -1,0 +1,13 @@
+
+
+
+
+
+
+[Rewrite]
+^https:\/\/api\.cece\.com\/user\/index\/tab_list response-body-json-jq '.data.tabs = []'
+
+^https:\/\/api\.cece\.com\/user\/index\/thread_list_new url reject-dict
+
+[Mitm]
+hostname = api.cece.com
