@@ -7,9 +7,5 @@
 [Script]
 # http-response ^https?:\/\/app\.mixcapp\.com\/mixc\/gateway script-path=https://github.com/tic0tic0/for-me/raw/refs/heads/main/plugin/js/ydwx.js,timeout=10,requires-body=true,tag=净化首页,enable=true
 
-[Rewrite]
-# 净化首页
-^https?:\/\/app\.mixcapp\.com\/mixc\/gateway response-body-json-jq '.data.components |= map(select(.bizType != "good" and .bizType != "channel"))'
-
 [MITM]
 hostname = app.mixcapp.com
