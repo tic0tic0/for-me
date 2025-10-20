@@ -1,0 +1,24 @@
+#!name = 肯德基去广告
+#!desc = 肯德基去除广告
+#!author = tic0tic0
+#!date = 2025-10-20
+#!icon=https://github.com/tic0tic0/for-me/raw/refs/heads/main/icon/kfc.png
+
+[Rule]
+
+
+[Rewrite]
+^https:\/\/res\.kfc\.com\.cn\/ruleConfig\/jsonFile\/cmsSetting_Rank\.json reject-dict
+
+^https:\/\/rnorder\.kfc\.com\.cn\/preorder-portal\/api\/v2\/activity\/magicCube response-body-json-del data.bannerList data.operationConfig.backgroudImageUrl
+
+^https:\/\/dynamicad\.kfc\.com\.cn\/api\/ai\/v2\/fixed\/feeds-fixed reject-dict
+
+^https:\/\/appcommon\.kfc\.com\.cn\/api\/lr\/messageBox reject-dict
+
+^https:\/\/dynamicad\.kfc\.com\.cn\/api\/ai\/v2\/homepage\/feeds reject-dict
+
+^https:\/\/dynamicad\.kfc\.com\.cn\/api\/app reject-dict
+
+[MITM]
+hostname = *.kfc.com.cn
