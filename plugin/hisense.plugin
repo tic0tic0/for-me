@@ -11,7 +11,7 @@ DOMAIN,mobile-home-launcher.hismarttv.com,REJECT
 [Rewrite]
 
 # 遥控器页面
-^https:\/\/public-wxtv\.hismarttv\.com\/vodapptv\/5\.10\/sceneParams\/data\/get response-body-json-jq '.pageParams |= map(del(.rcPromotion))'
+^https:\/\/public-wxtv\.hismarttv\.com\/vodapptv\/5\.10\/sceneParams\/data\/get response-body-json-jq '.pageParams |= map(del(.rcPromotion) | del(.mainPromotionDialog))'
 
 [MITM]
 hostname = public-wxtv.hismarttv.com
